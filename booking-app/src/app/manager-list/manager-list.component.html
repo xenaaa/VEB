@@ -1,0 +1,21 @@
+<div align="center">
+    <div style="width:600px; ">
+        <ul class="w3-ul w3-border-bottom">
+            <li class="w3-bar" *ngFor="let user of users">
+                <br>
+                <div class="w3-bar-item ">
+                    <span class="w3-bar-item w3-right  glyphicon glyphicon-user w3-large"> {{user.UserName}}</span>
+                </div>
+                <div class="w3-bar-item">
+                    <button *ngIf="!user.AppUser.IsBanned" class="w3-button w3-green w3-border w3-border-green w3-round-large" style="width: 100px"
+                        (click)="BanManager(user)">Ban</button>
+                    <button *ngIf="user.AppUser.IsBanned " class=" w3-margin-left w3-button w3-red w3-border w3-border-red w3-round-large" name="delete"
+                        (click)="UnBanManager(user)">UnBan</button>
+                </div>
+                <br>
+                <br>
+                <br>
+            </li>
+        </ul>
+    </div>
+</div>

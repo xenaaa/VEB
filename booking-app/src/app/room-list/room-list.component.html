@@ -1,0 +1,82 @@
+<h1 class="w3-blue" style="text-shadow:1px 1px 0 #444">
+    <a style="color:white" [routerLink]="['/accommodation', accommodation.Id]">{{ accommodationName }} Rooms:</a>
+</h1>
+<div>
+    <ul class="w3-ul">
+        <li class="w3-bar" *ngFor="let room of rooms">
+            <br>
+            <br>
+            <br>
+            <div class="w3-bar-item">
+                <span>
+                    <label>Room Number</label>
+                    <input type="text" [(ngModel)]="room.RoomNumber" [disabled]="!room.isEditable" />
+                    <br>
+                </span>
+                <span>
+                    <label>Bed Count</label>
+                    <input type="number" [(ngModel)]="room.BedCount" [disabled]="!room.isEditable" />
+                    <br>
+                </span>
+                <span>
+                    <textarea id="Description" name="Description" [(ngModel)]="room.Description" style="height:150px" [disabled]="!room.isEditable"></textarea>
+                </span>
+                <span>
+                    <label>Price Per Night</label>
+                    <input type="number" [(ngModel)]="room.PricePerNight" [disabled]="!room.isEditable"
+                    />
+                    <br>
+                </span>
+                <div *ngIf="accommodation.OwnerId != UserId && !isManager() && isLoggedIn()">
+                    <br>
+                    <form #f="ngForm" (ngSubmit)="onSubmitRR(f.value, room.Id)" ngNativeValidate>
+                        <label>
+                            <i class="fa fa-calendar"></i> Check In</label>
+                        <input type="date" name="StartDate" required ngModel>
+                        <label>
+                            <i class="fa fa-calendar"></i> Check Out</label>
+                        <input type="date" name="EndDate" required ngModel>
+                        <input type="submit" value="Book">
+
+                        <!--<button class="w3-button w3-dark-grey" type="submit"><i class="fa fa-bed "></i>Book now</button>  -->
+                    </form>
+                </div>
+                <br>
+            </div>
+            <div class="w3-bar-item">
+                <br>
+                <button class="w3-button w3-white w3-border w3-border-green w3-round-large" style="width: 100px" (click)="room.isEditable=!room.isEditable"
+                    *ngIf="!room.isEditable && room.Accommodation.OwnerId == UserId">Edit</button>
+                <button class="w3-button w3-white w3-border w3-border-green w3-round-large" style="width: 100px" *ngIf="room.isEditable && room.Accommodation.OwnerId == UserId"
+                    (click)="room.isEditable=!room.isEditable; editRoom(room)">Save</button>
+                <button *ngIf="room.Accommodation.OwnerId == UserId" class="w3-button w3-white w3-border w3-border-red w3-round-large" name="delete"
+                    (click)="deleteRoom(room.Id)" type="button">Delete</button>
+            </div>
+        </li>
+    </ul>
+</div>
+
+<br>
+<br>
+<div *ngIf="accommodation.OwnerId == UserId" class="container">
+
+    <h1 class="w3-blue" style="text-shadow:1px 1px 0 #444">Add room:</h1>
+    <br>
+    <form #f="ngForm" (ngSubmit)="onSubmit(f.value)" ngNativeValidate>
+
+        <label for="RoomNumber">Room Number:</label>
+        <input type="number" id="RoomNumber" name="RoomNumber" placeholder="Room Number.." required ngModel/>
+
+        <label for="Description">Description:</label>
+        <textarea id="Description" name="Description" placeholder="Description.." style="height:150px" required ngModel></textarea>
+
+        <label for="BedCount">Bed Count:</label>
+        <input type="number" id="BedCount" name="BedCount" placeholder="Bed Count.." required ngModel/>
+
+        <label for="PricePerNight">Price Per Night:</label>
+        <input type="number" id="PricePerNight" name="PricePerNight" placeholder="Price Per Night.." required ngModel/>
+
+        <input type="submit" value="Add">
+
+    </form>
+</div>

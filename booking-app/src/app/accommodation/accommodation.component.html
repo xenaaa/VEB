@@ -1,0 +1,72 @@
+<div>
+    <ul class="w3-ul">
+        <li class="w3-bar" ><br><br><br>   
+            <img src="{{url + accommodation.ImageURL}}" class="w3-bar-item w3-circle" style="width:500px; height: 300px">
+
+            <div class="w3-bar-item">
+                    <span> <input type="text"  [(ngModel)]="accommodation.Name" [disabled]="!accommodation.isEditable"/><br></span>
+                    <span> <textarea id="Description" name="Description" [(ngModel)]="accommodation.Description" style="height:150px"[disabled]="!accommodation.isEditable" ></textarea></span>
+                    <span [(ngModel)]="accommodation.AccommodationType.Name"> {{accommodation.AccommodationType.Name }}<br></span>
+                    <span ><input type="text"  [(ngModel)]="accommodation.Address" [disabled]="!accommodation.isEditable"/><br></span>
+                    <span [(ngModel)]="accommodation.Place.Name"> {{accommodation.Place.Name }}<br><br></span>
+                    <span [(ngModel)]="accommodation.AveragaGrade"> Average grade: {{accommodation.AverageGrade }}<br><br></span>
+                   <!-- <span [(ngModel)]="accommodation.Owner.username"> Owner: {{accommodation.Owner.username }}<br><br></span>-->
+
+                    <span> <a [routerLink] = "['/roomlist', accommodation.Id, accommodation.Name]" >Rooms</a><br><br><br></span>
+                 </div> 
+                 <div class="w3-bar-item">
+                 <button  class="w3-button w3-white w3-border w3-border-green w3-round-large" style="width: 100px" (click)="accommodation.isEditable=!accommodation.isEditable" *ngIf="!accommodation.isEditable && accommodation.OwnerId == UserId">Edit</button>                       
+                 <button class="w3-button w3-white w3-border w3-border-green w3-round-large" style="width: 100px" *ngIf="accommodation.isEditable && accommodation.OwnerId == UserId" (click)="accommodation.isEditable=!accommodation.isEditable; editAccommodation(accommodation)">Save</button>
+                 <button *ngIf="accommodation.OwnerId == UserId" class="w3-button w3-white w3-border w3-border-red w3-round-large"  name="delete" (click)="deleteAccommodation(accommodation.Id)" type="button">Delete</button>
+                 <button *ngIf="isAdmin() && !accommodation.Approved" class="w3-button w3-blue w3-border w3-border-red w3-round-large" name="approve"
+                 (click)="approveAccommodation(accommodation)" type="button">Approve</button>
+                </div>  
+
+                <div class="w3-bar-item">
+                      <map [accommodation]="accommodation"></map>
+              </div>
+           </li>   
+       </ul>
+   </div>      
+
+
+   <h1 >Comments</h1> 
+   <div *ngIf="comments.length == 0">
+        <h1>NO COMMENTS</h1>
+      </div>
+      
+   <div>
+        <ul class="w3-ul w3-border-bottom w3-padding">
+            <li class="w3-bar" *ngFor="let comment of comments">                    
+                <div class="w3-bar-item w3-border">
+                      <!-- <span> <input type="text"  [(ngModel)]="comment.Text" [disabled]="!comment.isEditable"/><br></span>
+                       <span> <input type="text"  [(ngModel)]="comment.Grade" [disabled]="!comment.isEditable"/><br></span>-->
+                      <span> <p> <b>{{comment.AppUser.Name}}:</b> {{comment.Grade}} - {{comment.Text}}</p></span>
+                     </div>   
+                     
+                     <div  class="w3-bar-item">
+                   <!--  <button  class="w3-button w3-white w3-border w3-border-green w3-round-large" style="width: 100px" (click)="comment.isEditable=!comment.isEditable" *ngIf="!comment.isEditable">Edit</button>                       
+                     <button class="w3-button w3-white w3-border w3-border-green w3-round-large" style="width: 100px" *ngIf="comment.isEditable" (click)="comment.isEditable=!comment.isEditable; editComment(comment, comment.AppUserId, comment.AccommodationId)">Save</button>-->
+                     <button *ngIf="comment.AppUserId == UserId"  class="w3-button w3-white w3-border w3-border-red w3-round-large"  name="delete" (click)="deleteComment(comment.AppUserId, comment.AccommodationId)" type="button">Delete</button>
+                   </div> 
+                  
+            </li>
+        </ul>
+    </div>
+    <div *ngIf="accommodation.OwnerId != UserId && !isManager() && isLoggedIn()" >
+            <form #f="ngForm" (ngSubmit)="onSubmitComment(f.value, f)" ngNativeValidate >   
+                <div class="w3-padding">        
+                <input style="width: 200px" type="number" name="Grade" placeholder="Grade" max="5" min="1"  required ngModel/>
+            </div>  <div class="w3-padding">   <textarea style="height:100px; width: 300px" name="Text"  placeholder="Comment here.." required ngModel></textarea> 
+            </div> 
+            <div class="w3-padding">       
+           <button class="w3-button w3-dark-grey" type="submit">Add comment</button>
+             </div> 
+            </form>
+        </div>                
+               
+                          
+
+
+
+                           

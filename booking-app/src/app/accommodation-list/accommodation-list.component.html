@@ -1,0 +1,181 @@
+<div class="w3-padding" *ngIf="accManId == undefined">
+    <form #f="ngForm" (ngSubmit)="onSubmitFilter(f)">
+        <div class="containerr">
+            <div class="form-group">
+                <label for="Name" class="label-default"> Name: </label>
+                <input type="text" id="AccName" name="AccName" [(ngModel)]="AccName" style="height:60px;float:right">
+            </div>
+            <div class="form-group">
+                <label for="Place" class="label-default"> Place: </label>
+                <input type="text" id="PlaceName" name="PlaceName" [(ngModel)]="PlaceName" style="height:60px;float:right">
+            </div>
+            <div class="form-group">
+                <label for="Region" class="label-default"> Region: </label>
+                <input type="text" id="RegionName" name="RegionName" [(ngModel)]="RegionName" style="height:60px;float:right">
+            </div>
+            <div class="form-group">
+                <label for="Country" class="label-default">Country: </label>
+                <input type="text" id="CountryName" name="CountryName" [(ngModel)]="CountryName" style="height:60px;float:right">
+            </div>
+
+        </div>
+        <br>
+        <div class="containerr">
+            <div class="form-group-5">
+                <label for="MinGrade" class="label-default"> Min grade: </label>
+                <input type="text" id="MinGrade" name="MinGrade" [(ngModel)]="MinGrade" style="height:60px;float:right">
+            </div>
+            <div class="form-group-5">
+                <label for="MaxGrade" class="label-default"> Max grade: </label>
+                <input type="text" id="MaxGrade" name="MaxGrade" [(ngModel)]="MaxGrade" style="height:60px;float:right">
+            </div>
+            <div class="form-group-5">
+                <label for="BedCount" class="label-default"> Bed count: </label>
+                <input type="text" id="BedCount" name="BedCount" [(ngModel)]="BedCount" style="height:60px;float:right">
+            </div>
+            <div class="form-group-5">
+                <label for="MinPrice" class="label-default"> Min price: </label>
+                <input type="text" id="MinPrice" name="MinPrice" [(ngModel)]="MinPrice" style="height:60px;float:right">
+            </div>
+            <div class="form-group-5">
+                <label for="MaxPrice" class="label-default"> Max price: </label>
+                <input type="text" id="MaxPrice" name="MaxPrice" [(ngModel)]="MaxPrice" style="height:60px;float:right">
+            </div>
+        </div>
+        <button type="submit" style="width: 100px" class="w3-button w3-blue w3-margin w3-border w3-border-blue w3-round-large" name="Filter">Filter</button>
+
+    </form>
+
+    <button class=" w3-margin-left w3-button w3-red w3-border w3-border-red w3-round-large" name="delete" (click)="removeFilter()"
+        type="button">Remove filter</button>
+</div>
+
+
+<h1 *ngIf="accManId == undefined" class="w3-blue" style="text-shadow:1px 1px 0 #444">
+    <b>Accomodations:</b>
+</h1>
+<div>
+    <ul class="w3-border-bottom">
+        <li class="w3-bar w3-padding-16" *ngFor="let accommodation of accommodations">
+            <div *ngIf="isAdmin() || accommodation.Approved || ( accManId != undefined  && accommodation.OwnerId == UserId)">
+                <br>
+                <br>
+                <br>
+                <img src="{{url + accommodation.ImageURL}}" class="w3-bar-item w3-circle" style="width:500px; height: 300px">
+
+
+                <div class="w3-bar-item">
+                    <br>
+                    <br>
+                    <label *ngIf="accommodation.OwnerId == UserId && !accommodation.Approved && accManId != undefined" style="color:red" name="pendingApproval">
+                        <b>Pending approval</b>
+                        <br>
+                    </label>
+
+                    <button *ngIf="isAdmin() && !accommodation.Approved" class="w3-button w3-blue w3-border w3-border-red w3-round-large" name="approve"
+                        (click)="approveAccommodation(accommodation)" type="button">Approve</button>
+                    <br>
+                    <br>
+                    <label> Name:
+                        <b> {{accommodation.Name }} </b>
+                    </label>
+                    <br>
+                    <label> Description: {{accommodation.Description }} </label>
+                    <br>
+                    <label> Type: {{accommodation.AccommodationType.Name }} </label>
+                    <br>
+                    <a [routerLink]="['/accommodation', accommodation.Id]">See More</a>
+                </div>
+
+
+
+
+            </div>
+        </li>
+    </ul>
+</div>
+<br>
+<br>
+<br>
+<br>
+
+<div *ngIf="showPrevious()">
+    <button (click)="previousPage()" md-button> Previous </button>
+</div>
+
+<div *ngFor="let c of counter; let i=index" style="float:left">
+    <button [ngClass]="{'fill-data-btn': selectedButton == (CurrentPage  + i ) }" (click)="changePage(CurrentPage + i)" md-button>
+        {{ CurrentPage + i }}
+    </button>
+</div>
+<div *ngIf="showNext()" style="float:left">
+    <button (click)="nextPage()" md-button> Next </button>
+</div>
+
+<div *ngFor="let user of users">
+    <div *ngIf="user.AppUserId == UserId">
+        <div *ngIf="user.AppUser.IsBanned; then content else other_content"></div>
+        <ng-template #content>
+            <h1>YOU ARE BANNED</h1>
+        </ng-template>
+        <ng-template #other_content>
+            <div *ngIf="isManager()" class="container">
+
+                <h1 class="w3-blue" style="text-shadow:1px 1px 0 #444">Add accommodation:</h1>
+                <br>
+                <form #f="ngForm" (ngSubmit)="onSubmit(f.value)" enctype="multipart/form-data" ngNativeValidate>
+
+                    <label for="Name">Name:</label>
+                    <input type="text" id="Name" name="Name" placeholder="Name.." [(ngModel)]="Name" />
+
+                    <label for="Description">Description:</label>
+                    <textarea id="Description" name="Description" placeholder="Description.." style="height:150px" [(ngModel)]="Description"></textarea>
+
+                    <label for="Address">Address:</label>
+                    <input type="text" id="Address" name="Address" placeholder="Address.." [(ngModel)]="Address" />
+
+                    <label for="AccType">Accommodation Type</label>
+                    <select name="AccomodationTypeId" id="AccType" [(ngModel)]="AccomodationTypeId">
+                        <option *ngFor="let t of accommodationTypes" value={{t.Id}}>{{t.Name}}</option>
+                    </select>
+
+                    <label for="ImageUrl">Image:</label>
+                    <input type="file" name="ImageUrl" id="ImageUrl" (change)="onChangeImage($event)" />
+
+
+                    <label for="Country">Country</label>
+                    <select name="Country" id="Country" (change)="onCountryChange($event.target.value)" [(ngModel)]="CountryId">
+                        <option *ngFor="let country of countries" value={{country.Id}}> {{country.Name}} </option>
+                    </select>
+
+                    <label for="Region">Region</label>
+                    <select name="Region" id="Region" (change)="onRegionChange($event.target.value)" [(ngModel)]="RegionId">
+                        <option *ngFor="let region of regions" value={{region.Id}}> {{region.Name}} </option>
+                    </select>
+
+                    <label for="Place">Place</label>
+                    <select name="Place" id="Place" [(ngModel)]="PlaceId">
+                        <option *ngFor="let place of places" value={{place.Id}}>{{place.Name}}</option>
+                    </select>
+
+
+                    <input type="submit" value="Add">
+
+                </form>
+                <div align="center" class="w3-padding">
+                    <agm-map #m [latitude]="lat" [longitude]="lng" [zoom]="16" (mapClick)="onClickMap($event)">
+                        <agm-marker [latitude]="clickedLat" [longitude]="clickedLong" label="">
+                            <agm-info-window [latitude]="clickedLat" [longitude]="clickedLong">
+                                <span style="color:gray;">latitude: {{clickedLat}}</span>
+                                <br/>
+                                <span style="color:gray;">longitude: {{clickedLong}}</span>
+                            </agm-info-window>
+                        </agm-marker>
+                    </agm-map>
+                </div>
+            </div>
+        </ng-template>
+    </div>
+</div>
+<br>
+<br>

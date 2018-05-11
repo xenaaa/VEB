@@ -1,0 +1,68 @@
+
+<!--
+<h3> Registration </h3>
+
+
+<div class="w3-padding w3-col l6 m8" >
+<form  #f = "ngForm" (ngSubmit)="onSubmit()" ngNativeValidate >
+  
+  <div>
+    <label for="Email"> Email: </label> <br>
+    <input type="email" id="Email" name="Email" [(ngModel)]="Email" required> <br/>
+    <label for="Password"> Password: </label><br>
+    <input type="password" id="Password" name="Password" [(ngModel)] = "Password" required> <br/>
+    <label for="ConfirmPassword"> Confirm password: </label><br>
+    <input type="password" id="ConfirmPassword" name="ConfirmPassword" [(ngModel)] = "ConfirmPassword" required> <br/>
+    <label for="Name"> Name: </label><br>
+    <input type="text" id="Name" name="Name" [(ngModel)]="Name" required> <br/>
+    <label for="LastName"> Last name: </label><br>
+    <input type="text" id="LastName" name="LastName" [(ngModel)]="LastName" required> <br/><br>
+    <input type="submit" value="Register">
+  </div>
+</form>  
+</div>
+-->
+<div class="w3-container w3-padding" align="center">
+    <div class="row center">
+        <div class="w3-padding">
+            <h1 id="TopicTitle" style="color: red">Registration</h1>
+            <form #f="ngForm" (ngSubmit)="onSubmit(f.value)" ngNativeValidate >
+                <div class="w3-padding">
+                    <label class="col-sm-12">Username: *</label>
+                    <input style="width: 200px" type="text" name="Username" placeholder="Username" class="form-control" required ngModel/>
+                </div>
+                <div class="w3-padding">
+                    <label class="col-sm-12">Name: *</label>
+                    <input style="width: 200px" type="text" name="Name" placeholder="Name" class="form-control" required ngModel/>
+                </div>
+                <div class="w3-padding">
+                    <label class="col-sm-12">Last Name: *</label>
+                    <input style="width: 200px" type="text" name="LastName" placeholder="Last Name" class="form-control" required ngModel/>
+                </div>
+                <div class="w3-padding">
+                    <label class="col-sm-12">Email: *</label>
+                    <input style="width: 200px" type="text" name="Email" placeholder="Email" class="form-control" required ngModel/>
+                </div>
+                <div class="w3-padding">
+                    <label class="col-sm-12">Password: *</label>
+                    <input style="width: 200px" type="password" name="Password" placeholder="Password" class="form-control" required ngModel/>
+                </div>
+                <div class="w3-padding">
+                    <label class="col-sm-12">Confirm password: *</label>
+                    <input style="width: 200px" type="password" name="ConfirmPassword" placeholder="Confirm Password" class="form-control" required ngModel/>
+                </div> 
+                <div class="w3-padding">
+                    <label class="col-sm-12">Role: *</label>
+                <select name="Role" required ngModel style="width: 200px">
+                    <option value="Manager">Manager</option>
+                    <option value="AppUser">AppUser</option>
+                  </select>
+                </div> 
+                <div class="w3-padding"> 
+                    <button style="width: 200px" type="submit" id="confirm" class="btn btn-success" value="Confirm">Confirm</button>
+                  </div>
+            </form>
+
+        </div>
+    </div>
+</div>

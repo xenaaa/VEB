@@ -1,0 +1,23 @@
+<p>
+    <!-- Kreiramo mapu -->
+    <agm-map [latitude]="accommodation.Latitude" [longitude]="accommodation.Longitude" [zoom]="18">
+     
+      <!-- Postavljamo markere -->
+      <agm-marker [latitude]="accommodation.Latitude" [longitude]="accommodation.Longitude" [title]="accommodation.Id"
+      [label]="accommodation.Name">
+  
+        <!-- Svakom markeru dodajemo info-window (Nije obavezno!)-->
+        <agm-info-window [latitude]="accommodation.Latitude" [longitude]="accommodation.Longitude" >
+  
+          <!-- U info-window stavljamo html -->
+         <!-- <span style="font-size: 16px;font-family:'Times New Roman'">Fakultet tehničkih nauka</span>
+          <br/>
+          <span style="font-family:'Times New Roman'; color:gray;"><strong>Jugodrvo</strong></span>
+          <span style="font-family:'Times New Roman'; color:gray;">Bulevar oslobođenja 131</span>
+          <a [href]="mapInfo.link">See the site.</a>-->
+        </agm-info-window>
+  
+      </agm-marker>
+    </agm-map>
+  </p>
+  

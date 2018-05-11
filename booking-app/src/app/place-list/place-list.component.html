@@ -1,0 +1,38 @@
+<div align="center">
+  <h1 style="text-transform: uppercase">
+     <a [routerLink]="['/countrylist']"> <u>{{countryName}}</u></a>    
+  </h1>
+  <h3 style="text-transform: uppercase">    <a [routerLink]="['/regionlist', countryId, countryName]"><u>{{regionName}}</u></a>  
+  </h3>
+  <div style="width:600px; ">
+    <ul class="w3-ul w3-border-bottom">
+      <li class="w3-bar" *ngFor="let place of places">
+        <br>
+        <div class="w3-bar-item ">
+          <input type="text" class="w3-padding w3-margin-bottom  w3-border w3-round" style="width: 250px" [(ngModel)]="place.Name"
+            [disabled]="!place.isEditable" />
+        </div>
+        <div class="w3-bar-item">
+          <button class="w3-button w3-green w3-border w3-border-green w3-round-large" style="width: 100px" (click)="place.isEditable=!place.isEditable"
+            *ngIf="!place.isEditable">Edit</button>
+          <button class="w3-button w3-blue w3-border w3-border-blue w3-round-large" style="width: 100px" *ngIf="place.isEditable" (click)="place.isEditable=!place.isEditable; editPlace(place)">Save</button>
+          <button class=" w3-margin-left w3-button w3-red w3-border w3-border-red w3-round-large" name="delete" (click)="deletePlace(place.Id)"
+            type="button">Delete</button>
+        </div>
+        <br>
+        <br>
+        <br>
+      </li>
+    </ul>
+  </div>
+
+  <div class=" w3-padding-16 w3-margin" style="width:500px;">
+    <h2 class="w3-blue w3-padding" style="text-shadow:1px 1px 0 #444">Add place</h2>
+    <br>
+    <form #f="ngForm" (ngSubmit)="onSubmit(f.value)" ngNativeValidate>
+      <label class="w3-padding " for="Name">Name:</label>
+      <input class="w3-padding w3-border w3-round" type="text" id="Name" name="Name" placeholder="Name.." required ngModel/>
+      <button type="submit" style="width: 100px" class="w3-button w3-blue w3-margin w3-border w3-border-blue w3-round-large" name="Add">Add</button>
+    </form>
+  </div>
+</div>

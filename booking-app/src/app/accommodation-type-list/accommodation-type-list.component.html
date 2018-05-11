@@ -1,0 +1,36 @@
+<div align="center">
+  <div align="center">
+    <div style="width:600px; ">
+      <ul class="w3-ul w3-border-bottom">
+
+        <li class="w3-bar" *ngFor="let accommodationtype of accommodationTypes">
+          <br>
+          <div class="w3-bar-item ">
+            <input type="text" class="w3-padding  w3-border w3-round" style="width: 250px" [(ngModel)]="accommodationtype.Name" [disabled]="!accommodationtype.isEditable"
+            />
+            <br>
+          </div>
+          <div class="w3-bar-item">
+            <button class="w3-button w3-green w3-border w3-border-green w3-round-large" style="width: 100px" (click)="accommodationtype.isEditable=!accommodationtype.isEditable"
+              *ngIf="!accommodationtype.isEditable">Edit</button>
+            <button class="w3-button w3-blue w3-border w3-border-blue w3-round-large" style="width: 100px" *ngIf="accommodationtype.isEditable"
+              (click)="accommodationtype.isEditable=!accommodationtype.isEditable; editAccommodationType(accommodationtype)">Save</button>
+            <button class=" w3-margin-left w3-button w3-red w3-border w3-border-red w3-round-large" name="delete" (click)="deleteAccommodationType(accommodationtype.Id)"
+              type="button">Delete</button>
+          </div>
+          <br>
+          <br>
+          <br>
+        </li>
+      </ul>
+    </div>
+    <div class=" w3-padding-16 w3-margin" style="width:500px;">
+      <h1 class="w3-blue w3-padding" style="text-shadow:1px 1px 0 #444">Add accommodation type</h1>
+      <br>
+      <form #f="ngForm" (ngSubmit)="onSubmit(f.value)" ngNativeValidate>
+        <label class="w3-padding " for="Name">Name:</label>
+        <input class="w3-padding w3-border w3-round" type="text" id="Name" name="Name" placeholder="Name.." required ngModel/>
+        <button type="submit" style="width: 100px" class="w3-button w3-blue w3-margin w3-border w3-border-blue w3-round-large" name="Add">Add</button>
+      </form>
+    </div>
+  </div>
